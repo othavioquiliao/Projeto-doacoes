@@ -1,0 +1,79 @@
+//
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+// 
+
+// Generator configuration for Prisma Client
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Datasource configuration for PostgreSQL database
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Enum for user roles
+enum Role {
+  USER
+  ADMIN
+}
+
+// User model
+model User {
+  id        Int        @id @default(autoincrement())
+  createdAt DateTime   @default(now())
+  name      String
+  telefone  String
+  anonimo   Boolean    @default(false)
+  role      Role       @default(USER)
+  doacoes   Doacoes[]
+  entregas  Entregas[]
+}
+
+// Itens model
+model Itens {
+  id         Int       @id @default(autoincrement())
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  nome       String    @unique
+  quantidade Int
+  categoria  String
+  Doacoes    Doacoes?  @relation(fields: [doacoesId], references: [id])
+  doacoesId  Int?
+  Entregas   Entregas? @relation(fields: [entregasId], references: [id])
+  entregasId Int?
+}
+
+// Entregas model
+model Entregas {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  autor     User?    @relation(fields: [autorId], references: [id])
+  autorId   Int?
+  entrada   Boolean  @default(true)
+  itens     Itens[]
+}
+
+// Doacoes model
+model Doacoes {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  autor     User?    @relation(fields: [autorId], references: [id])
+  autorId   Int?
+  entrada   Boolean  @default(true)
+  itens     Itens[]
+}
+
+// Estoque model
+model Estoque {
+  id         Int      @id @default(autoincrement())
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  nome       String   @unique
+  quantidade Int
+  categoria  String
+}

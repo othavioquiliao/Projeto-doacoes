@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.criePadrao {
+	color: #b4f349;
+}
+.criePadraoBorda {
+	border-color: #b4f349;
+}
