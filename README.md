@@ -3,4 +3,6 @@
 #Foi usado pnpm para dar init, ou seja apos clonar o repositorio rode:
 
 pnpm i
-s
+
+# Caso esteja tendo problemas com prisma, precisa sincronizar com o DB:
+> pnpx prisma push
